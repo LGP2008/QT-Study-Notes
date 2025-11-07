@@ -1,0 +1,109 @@
+#include <QApplication> 图形头文件
+#include "QtWidgetsApplication2.h"
+#include <QtWidgets/QApplication>
+#include<QtWidgets>
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    QPushButton button("6666");
+    button.show();
+    return app.exec();
+}
+其中argc, argv是传给QApplication的参数，argc是参数个数，argv是参数数组。
+QPushButton是一个按钮类，button是按钮对象，"6666"是按钮上的文字。
+button.show()是显示按钮。
+app.exec()是进入消息循环。
+QCoreApplication类提供了一个事件循环，用于处理和分发事件。为非GUI程序提供主事件循环。
+QApplication类是QCoreApplication的子类，提供了图形用户界面功能。为GUi程序提供主事件循环。
+
+QWidget类是所有用户界面对象的基类。提供了窗口和控件的基本功能。
+QPushButton类是QWidget的子类，提供了一个可点击的按钮控件。
+QLabel类是QWidget的子类，提供了一个显示文本或图像的控件。
+QLineEdit类是QWidget的子类，提供了一个单行文本输入控件。
+QTextEdit类是QWidget的子类，提供了一个多行文本输入控件。
+QCheckBox类是QWidget的子类，提供了一个复选框控件。
+QRadioButton类是QWidget的子类，提供了一个单选按钮控件   。
+QComboBox类是QWidget的子类，提供了一个下拉列表控件。
+QListWidget类是QWidget的子类，提供了一个列表控件。
+QTableWidget类是QWidget的子类，提供了一个表格控件。
+QTreeWidget类是QWidget的子类，提供了一个树形控件。
+QMainWindow类是QWidget的子类，提供了一个主窗口控件，包含菜单栏、工具栏和状态栏。
+QDialog类是QWidget的子类，提供了一个对话框控件。
+QMessageBox类是QDialog的子类，提供了一个消息对话框控件。
+QInputDialog类是QDialog的子类，提供了一个输入对话框控件。
+QFileDialog类是QDialog的子类，提供了一个文件对话框控件。
+QColorDialog类是QDialog的子类，提供了一个颜色对话框控件。
+QFontDialog类是QDialog的子类，提供了一个字体对话框控件。
+QProgressBar类是QWidget的子类，提供了一个进度条控件。
+QSlider类是QWidget的子类，提供了一个滑块控件。  
+QSpinBox类是QWidget的子类，提供了一个数字输入控件。
+QDial类是QWidget的子类，提供了一个拨盘控件。
+
+QcoreApplication包含主事件循环，处理和分发来自操作系统和其他源的的所有事件。
+它还处理应用程序的初始化和清理工作。以及操作系统范围和应用程序范围的设置。
+
+通过Creator向导，生成一个控制台程序会得到以下代码：
+#include <QCoreApplication>
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    return a.exec();//进入主事件循环并等待，直到调用exit()。返回传递给exit()的值。
+}
+以下为修改后的代码通过Qdebug输出：
+#include <QCoreApplication>
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    qDebug()<<"对象A的类名称"<<a.metaObject()->className();
+    qDebug()<<"应用程序目录："<<a.applicationFilePath();
+    a.dumpObjectTree();//输出对象树信息
+    a.dumpObjectInfo();//输出对象的元对象信息
+    return a.exec();//进入主事件循环并等待，直到调用exit()。返回传递给exit()的值。
+}
+qDebug()是一个调试输出类，可以输出各种类型的数据到调试控制台。在windows下
+如果是控制台程序，则输出到控制台窗口否则就发送到调试器。如果是GUI程序，则输出到IDE的调试输出窗口。
+在QT中，所有的类都继承自QObject类。QObject类提供了对象树、信号与槽机制、事件处理等功能。
+通过QObject类的metaObject()函数，可以获取对象的元对象信息，包括类名称、属性、信号和槽等。
+示例图下级继承上级,例如QCoreApplication继承QObject，QGuiApplication继承CoreApplication，QApplication继承QGuiApplication：
+QObject
+ ↑
+QCoreApplication
+ ↑
+QGuiApplication
+ ↑
+QApplication
+
+QGuiApplication除了继承QCoreApplication的功能外，还需要负责处理初始化图形用户界面相关的资源；跟随系统界面属性，保证GUi与系统设置保持一致
+；提供字符串本地化，剪切板，鼠标光标等功能。
+
+QGuiApplication示例代码：
+#include <QGuiApplication>
+#include <QWindow>
+int main(int argc, char *argv[])
+{
+    QGuiApplication app(argc, argv);
+    Qwindow w;
+    w.show();//创建一个窗口并显示
+    QGuiAPP->dumpObjectTree();//输出对象树信息
+    QGuiAPP->dumpObjectInfo();//输出对象的元对象信息
+    return app.exec();//进入主事件循环并等待，直到调用exit()。返回传递给exit()的值。
+}
+QGuiApp是全局指针，指向当前的QGuiApplication对象，可以通过它访问QGuiApplication的成员函数和属性。
+只有当应用程序对象是QGuiApplication或其子类时，QGuiApp才有效。是使用操作系统默认对GUi的支持，例如QWindow。
+
+QApplication除了继承QGuiApplication功能外，还需负责初始化QtWidgets模块所需资源，还提供更多接口。所以使用QtWidgets时必须引用<QApplication>
+
+QApplication示例代码：
+#include<QApplication>
+#include<QMainWindow>
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    QMainWindow w;
+    w.show();
+    qApp->dumpObjectTree();//输出对象树信息
+    qApp->dumpObjectInfo();//输出对象的元对象信息
+    return app.exec();
+}
+QApp是应用程序对象的全局指针，只有当应用程序对象对象是QApplication时才生效；
